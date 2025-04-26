@@ -9,4 +9,10 @@
 .container {
     padding: 24px;
     min-height: 100vh;
+    max-width: 600px;  /*временно*/
+    margin: 0 auto;
+}
+
+ul {
+    list-style: none;
 }
