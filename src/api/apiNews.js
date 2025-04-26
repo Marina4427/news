@@ -6,7 +6,7 @@ const url = process.env.REACT_APP_BASE_URL;
 export const getNews = async () => {
     try {
         const response = await axios.get(`${url}latest-news`, {
-            params: { apiKey: apiKey, language: "en"}});
+            params: { apiKey: apiKey, language: "en", page_size:5}});
                 
         return response.data;
     } catch (error) {
