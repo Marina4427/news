@@ -5,6 +5,7 @@
     border-bottom: 1px solid #f2f4f5;
     flex-direction: column;
     gap: 12px;
+    margin-bottom: 24px;
 }
 
 .title {
