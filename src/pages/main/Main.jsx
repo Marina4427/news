@@ -1,144 +1,100 @@
-import { useEffect, useState } from "react";
-
 import styles from "./styles.module.css";
 import { getNews, getCategories } from "../../api/apiNews";
-
 import NewsList from "../../component/newsList/NewsList";
-import Skeleton from "../../component/skeleton/Skeleton";
 import NewsBanner from "../../component/newsBanner/NewsBanner";
-import { mockNews } from "./mock";
 import Pagination from "../../component/pagination/Pagination";
 import Categories from "../../component/categories/Categories";
 import Search from "../../component/search/Search";
-import { useDebounce } from "../../helpers/useDebounce";
+import { useDebounce } from "../../helpers/hooks/useDebounce";
+import { PAGE_SIZE, TOTAL_PAGES } from "../../constants/constaints";
+import { useFetch } from "../../helpers/hooks/useFetch";
+import { useFilters } from "../../helpers/hooks/useFilters";
 
 const Main = () => {
-  const [news, setNews] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 10;
-  const pageSize = 10;
 
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const {filters, changeFilter} = useFilters({
+    page_number: 1,
+    page_size: PAGE_SIZE,
+    category: "All",
+    keywords: "",
 
-  const [keywords, setKeywords] = useState("");
-  const debouncedKeywords = useDebounce(keywords, 1500);
+  })
 
-  const fetchNews = async (currentPage) => {
-    try {
-      setIsLoading(true);
-      const response = await getNews({
-        page_number: currentPage,
-        page_size: pageSize,
-        category: selectedCategory === "All" ? null : selectedCategory,
-        keywords: debouncedKeywords,
-      });
-      setNews(response.news);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const debouncedKeywords = useDebounce(filters.keywords, 1500);
+  const { data, isLoading } = useFetch(getNews, {
+    ...filters,
+    keywords: debouncedKeywords,
+  });
 
-  const fetchCategories = async () => {
-    try {
-      const response = await getCategories();
-      setCategories(["All", ...response.categories]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { data: dataCategories } = useFetch(getCategories);
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    fetchNews(currentPage);
-  }, [currentPage, selectedCategory, debouncedKeywords]);
-
+  
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+    if (filters.page_number < TOTAL_PAGES) {
+      changeFilter("page_number", filters.page_number + 1);
     }
   };
 
   const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+    if (filters.page_number > 1) {
+      changeFilter("page_number", filters.page_number - 1);
     }
   };
 
-  const handlePageClick = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageClick = (page_number) => {
+    changeFilter("page_number", page_number);
   };
 
-  // let news = mockNews;
   // Найти первую новость с валидной картинкой
-  const bannerItem = news.find((item) => item.image && item.image !== "None");
+  const bannerItem = data?.news?.find(
+    (item) => item.image && item.image !== "None"
+  );
   // Отфильтровываем список новостей без баннер-новости
   const filteredNews = bannerItem
-    ? news.filter((item) => item.id !== bannerItem.id)
-    : news;
+    ? data?.news.filter((item) => item.id !== bannerItem.id)
+    : data?.news || [];
 
   return (
     <main className={styles.main}>
-      <Categories
-        categories={categories}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
+      {dataCategories ? (
+        <Categories
+          categories={dataCategories.categories}
+          selectedCategory={filters.category}
+          setSelectedCategory={(category) =>
+            changeFilter("category", category)
+          }
+        />
+      ) : null}
+
+      <Search
+        keywords={filters.keywords}
+        setKeywords={(keywords) => changeFilter("keywords", keywords)}
       />
 
-      <Search keywords={keywords} setKeywords={setKeywords} />
-
-      {bannerItem && !isLoading ? (
-        <NewsBanner item={bannerItem} />
-      ) : (
-        <Skeleton type={"banner"} count={1} />
-      )}
+      <NewsBanner
+        isLoading={isLoading}
+        item={data?.news.length > 0 && bannerItem}
+      />
 
       <Pagination
         handlePageClick={handlePageClick}
         handlePreviousPage={handlePreviousPage}
         handleNextPage={handleNextPage}
-        currentPage={currentPage}
-        totalPages={totalPages}
+        currentPage={filters.page_number}
+        totalPages={TOTAL_PAGES}
       />
 
-      {!isLoading ? (
-        <NewsList news={filteredNews} />
-      ) : (
-        <Skeleton type={"item"} count={10} />
-      )}
+      <NewsList isLoading={isLoading} news={filteredNews} />
 
       <Pagination
         handlePageClick={handlePageClick}
         handlePreviousPage={handlePreviousPage}
         handleNextPage={handleNextPage}
-        currentPage={currentPage}
-        totalPages={totalPages}
+        currentPage={filters.page_number}
+        totalPages={TOTAL_PAGES}
       />
     </main>
   );
 };
-
-//для работы в mock тк кол-во запросов ограничено
-//   return (
-//     <main className={styles.main}>
-//       {bannerItem ? (
-//         <NewsBanner item={bannerItem} />
-//       ) : (
-//         <Skeleton type={"banner"} count={1} />
-//       )}
-
-//       {filteredNews.length > 0 ? (
-//         <NewsList news={filteredNews} />
-//       ) : (
-//         <Skeleton type={"item"} count={10} />
-//       )}
-//     </main>
-//   );
-// };
 
 export default Main;
