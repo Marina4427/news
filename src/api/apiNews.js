@@ -33,3 +33,16 @@ export const getCategories = async () => {
     throw error;
   }
 };
+
+export const getLatestNews = async () => {
+  try {
+    const response = await axios.get(`${url}latest-news`, {
+      params: { apiKey: apiKey },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching news:", error);
+    throw error;
+  }
+};

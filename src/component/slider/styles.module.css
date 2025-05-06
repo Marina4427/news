@@ -1,0 +1,25 @@
+.slider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  gap: 8px;
+}
+
+.sliderContent {
+  flex: 1;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.sliderContent::-webkit-scrollbar {
+  display: none;
+}
+
+.sliderItems {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0;  
+}
