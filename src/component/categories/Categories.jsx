@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 
-const Categories = ({ categories, selectedCategory, setSelectedCategory }) => {
+const Categories = ({ categories, selectedCategory, setSelectedCategory }) => { 
   return (
     <>
       <button

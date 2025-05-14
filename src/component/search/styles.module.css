@@ -10,3 +10,9 @@
     border: 1px solid #F2F3F5;
     border-radius: 16px;
 }
+.dark{
+    color:white
+}
+.light{
+    color:black
+}

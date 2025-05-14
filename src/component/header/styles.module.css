@@ -3,9 +3,10 @@
     width: 100%;
     padding: 12px 24px;
     border-bottom: 1px solid #f2f4f5;
-    flex-direction: column;
+    justify-content: space-between;
     gap: 12px;
     margin-bottom: 24px;
+    align-items: center;
 }
 
 .title {
@@ -14,4 +15,13 @@
 
 .date {
     font-size: 16px;
+}
+.info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.icon{
+    font-size: 30px;
 }
