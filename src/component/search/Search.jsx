@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import styles from "./styles.module.css";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const Search = ({ keywords, setKeywords }) => {
+  const {isDark} = useContext(ThemeContext)
   return (
-    <div className={styles.search}>
+    <div className={`${styles.search} ${isDark ? styles.dark : styles.light}`}>
       <input
         type="text"
         value={keywords}

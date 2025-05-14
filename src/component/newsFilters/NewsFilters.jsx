@@ -1,4 +1,3 @@
-
 import { getCategories } from "../../api/apiNews";
 import { useFetch } from "../../helpers/hooks/useFetch";
 import Categories from "../categories/Categories";
