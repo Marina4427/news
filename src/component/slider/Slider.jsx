@@ -1,5 +1,6 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import styles from "./styles.module.css";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const Slider = ({ children }) => {
   const sliderRef = useRef(null);
@@ -12,8 +13,9 @@ const Slider = ({ children }) => {
     sliderRef.current?.scrollBy({ left: 150, behavior: "smooth" });
   };
 
+  const {isDark} = useContext(ThemeContext);
   return (
-    <div className={styles.slider}>
+    <div className={`${styles.slider} ${isDark ? styles.dark : styles.light}`} >
       <button onClick={scrollLeft}>
         {"<"}
       </button>

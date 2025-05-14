@@ -5,9 +5,7 @@ export const useFetch = (fetchFunction, params) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // const strParams = params ? new URLSearchParams(params).toString() : "";
   const strParams = JSON.stringify(params);
-
 
   useEffect(() => {
     (async () => {
