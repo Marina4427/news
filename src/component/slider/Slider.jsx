@@ -13,22 +13,16 @@ const Slider = ({ children }) => {
     sliderRef.current?.scrollBy({ left: 150, behavior: "smooth" });
   };
 
-  const {isDark} = useContext(ThemeContext);
+  const { isDark } = useContext(ThemeContext);
   return (
-    <div className={`${styles.slider} ${isDark ? styles.dark : styles.light}`} >
-      <button onClick={scrollLeft}>
-        {"<"}
-      </button>
-      
+    <div className={`${styles.slider} ${isDark ? styles.dark : styles.light}`}>
+      <button onClick={scrollLeft}>{"<"}</button>
+
       <div className={styles.sliderContent} ref={sliderRef}>
-        <div className={styles.sliderItems}>
-          {children}
-        </div>
+        <div className={styles.sliderItems}>{children}</div>
       </div>
-      
-      <button onClick={scrollRight}>
-        {">"}
-      </button>
+
+      <button onClick={scrollRight}>{">"}</button>
     </div>
   );
 };
