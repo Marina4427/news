@@ -3,7 +3,7 @@ import styles from "./styles.module.css";
 import { ThemeContext } from "../../context/ThemeContext";
 
 const Search = ({ keywords, setKeywords }) => {
-  const {isDark} = useContext(ThemeContext)
+  const { isDark } = useContext(ThemeContext);
   return (
     <div className={`${styles.search} ${isDark ? styles.dark : styles.light}`}>
       <input

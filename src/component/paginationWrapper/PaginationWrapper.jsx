@@ -1,14 +1,12 @@
-
 import Pagination from "../pagination/Pagination";
 
-const PaginationWrapper = ({top, bottom, children, ...paginationProps}) => {
+const PaginationWrapper = ({ top, bottom, children, ...paginationProps }) => {
   return (
     <>
-      {top && <Pagination {...paginationProps} /> }
+      {top && <Pagination {...paginationProps} />}
       {children}
-      {bottom && <Pagination {...paginationProps} /> }
+      {bottom && <Pagination {...paginationProps} />}
     </>
-    
   );
 };
 

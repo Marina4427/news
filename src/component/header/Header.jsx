@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { formateDate } from "../../helpers/formatDate";
-import styles from "./styles.module.css";
-import { FaMoon, FaRegMoon } from "react-icons/fa";
+import { FaMoon } from "react-icons/fa";
 import { PiMoonDuotone } from "react-icons/pi";
+import styles from "./styles.module.css";
 
 const Header = () => {
   const { isDark, toggleTheme } = useContext(ThemeContext);
@@ -15,9 +15,8 @@ const Header = () => {
         <h1 className={styles.title}>NEWS REACTIFY</h1>
         <p className={styles.date}>{formateDate(new Date())}</p>
       </div>
-
       <span className={styles.icon} onClick={toggleTheme}>
-        {isDark ? <PiMoonDuotone style={{ fill: "white" }} /> : <FaMoon />}
+        {isDark ? <PiMoonDuotone style={{ fill: "white" }} /> : <FaMoon fontSize={35}/>}
       </span>
     </header>
   );
