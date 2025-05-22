@@ -1,54 +1,32 @@
-import { TOTAL_PAGES } from "../../constants/constaints";
-import NewsListWithSkeleton from "../newsList/NewsList";
 import NewsFilters from "../newsFilters/NewsFilters";
 import { useDebounce } from "../../helpers/hooks/useDebounce";
-import PaginationWrapper from "../paginationWrapper/PaginationWrapper";
-import { useGetNewsQuery } from "../../store/services/newsApi";
-import { useDispatch, useSelector } from "react-redux";
-import { setFilters } from "../../store/slices/newSlice";
+import {
+  useGetCategoriesQuery,
+  useGetNewsQuery,
+} from "../../store/services/newsApi";
+import { useSelector } from "react-redux";
 import styles from "./styles.module.css";
+import NewsListWithPagination from "../NewsListWithPagination/NewsListWithPagination";
 
 const NewsByFilters = () => {
-  const dispatch = useDispatch();
-  const filters = useSelector(state => state.news.filters)
+  const filters = useSelector((state) => state.news.filters);
+  const { data: categoriesData } = useGetCategoriesQuery();
   const debouncedKeywords = useDebounce(filters.keywords, 1500);
 
-  const { data, isLoading } = useGetNewsQuery({
+  const { data: newsData, isLoading } = useGetNewsQuery({
     ...filters,
-     keywords: debouncedKeywords,
-  })
-
-  const handleNextPage = () => {
-    if (filters.page_number < TOTAL_PAGES) {
-      dispatch(setFilters({key: "page_number", value: filters.page_number + 1}))
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (filters.page_number > 1) {
-      dispatch(setFilters({key: "page_number", value: filters.page_number - 1}))
-    }
-  };
-
-  const handlePageClick = (page_number) => {
-    dispatch(setFilters({key: "page_number", value: page_number}))
-  };
+    keywords: debouncedKeywords,
+  });
 
   return (
     <section className={styles.section}>
-      <NewsFilters filters={filters} />
+      <NewsFilters filters={filters} categories={categoriesData?.categories || []} />
 
-      <PaginationWrapper
-        top
-        bottom
-        handlePageClick={handlePageClick}
-        handlePreviousPage={handlePreviousPage}
-        handleNextPage={handleNextPage}
-        currentPage={filters.page_number}
-        totalPages={TOTAL_PAGES}
-      >
-        <NewsListWithSkeleton isLoading={isLoading} news={data?.news} />
-      </PaginationWrapper>
+      <NewsListWithPagination
+        isLoading={isLoading}
+        news={newsData?.news || []}
+        filters={filters}
+      />
     </section>
   );
 };

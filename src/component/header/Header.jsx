@@ -16,7 +16,7 @@ const Header = () => {
         <p className={styles.date}>{formateDate(new Date())}</p>
       </div>
       <span className={styles.icon} onClick={toggleTheme}>
-        {isDark ? <PiMoonDuotone style={{ fill: "white" }} /> : <FaMoon fontSize={35}/>}
+        {isDark ? <PiMoonDuotone style={{ fill: "white" }} fontSize={40} /> : <FaMoon fontSize={32}/>}
       </span>
     </header>
   );
