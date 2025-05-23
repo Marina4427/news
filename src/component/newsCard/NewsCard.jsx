@@ -2,9 +2,9 @@ import styles from "./styles.module.css";
 import { formatTimeAgo } from "../../helpers/formatTimeAgo";
 import Image from "../image/Image";
 
-const NewsCard = ({ item, type = "item" }) => {
+const NewsCard = ({ item, type = "item", viewNewsSlot }) => {
   return (
-    <li className={`${styles.card} ${type === "banner" ? styles.banner : ''}`}>
+    <li className={`${styles.card} ${type === "banner" ? styles.banner : ""}`}>
       {type === "banner" ? (
         <Image image={item?.image} />
       ) : (
@@ -19,6 +19,7 @@ const NewsCard = ({ item, type = "item" }) => {
           {formatTimeAgo(item.published)} by {item.autor}
         </p>
       </div>
+      {viewNewsSlot ? viewNewsSlot(item) : null}
     </li>
   );
 };

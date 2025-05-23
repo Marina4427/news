@@ -3,6 +3,7 @@ import { PAGE_SIZE } from '../../constants/constaints';
 
 const initialState = {
   news: [],
+  currentNews: {},
   filters: {
     page_number: 1,
         page_size: PAGE_SIZE,
@@ -18,6 +19,9 @@ export const newsSlice = createSlice({
     getNews: (state, action) => {
       state.news = action.payload;
     },
+    setCurrentNews: (state, action) => {
+      state.currentNews = action.payload;
+    },
     setFilters: (state, action) => {
       const {key, value} = action.payload
       state.filters = {...state.filters, [key]: value};
@@ -26,7 +30,5 @@ export const newsSlice = createSlice({
   },
  )
 
-// Action creators are generated for each case reducer function
-export const { getNews, setFilters } = newsSlice.actions
-
+export const { getNews, setFilters, setCurrentNews } = newsSlice.actions
 export default newsSlice.reducer
