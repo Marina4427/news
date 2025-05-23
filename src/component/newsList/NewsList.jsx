@@ -1,17 +1,24 @@
 import styles from "./styles.module.css";
-import NewsItem from "../newsItem/NewItem";
 import withSkeleton from "../../helpers/hocs/withSkeleton";
+import NewsCard from "../newsCard/NewsCard";
 
-const NewsList = ({ news }) => {
+const NewsList = ({ news, type = "item", viewNewsSlot }) => {
   return (
-    <ul className={styles.list}>
+    <ul className={`${type === "item" ? styles.items : styles.banners}`}>
       {news?.map((item) => {
-        return <NewsItem key={item.id} item={item}></NewsItem>;
+        return (
+          <NewsCard
+            key={item.id}
+            item={item}
+            type={type}
+            viewNewsSlot={viewNewsSlot}
+          />
+        );
       })}
     </ul>
   );
 };
 
-const NewsListWithSkeleton = withSkeleton(NewsList, 'item', 10)
+const NewsListWithSkeleton = withSkeleton(NewsList);
 
 export default NewsListWithSkeleton;

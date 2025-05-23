@@ -4,6 +4,7 @@ import { formateDate } from "../../helpers/formatDate";
 import { FaMoon } from "react-icons/fa";
 import { PiMoonDuotone } from "react-icons/pi";
 import styles from "./styles.module.css";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const { isDark, toggleTheme } = useContext(ThemeContext);
@@ -12,11 +13,18 @@ const Header = () => {
       className={`${styles.header} ${isDark ? styles.dark : styles.light}`}
     >
       <div className={styles.info}>
-        <h1 className={styles.title}>NEWS REACTIFY</h1>
+        <Link to={"/"}>
+          <h1 className={styles.title}>NEWS REACTIFY</h1>
+        </Link>
+
         <p className={styles.date}>{formateDate(new Date())}</p>
       </div>
       <span className={styles.icon} onClick={toggleTheme}>
-        {isDark ? <PiMoonDuotone style={{ fill: "white" }} /> : <FaMoon fontSize={35}/>}
+        {isDark ? (
+          <PiMoonDuotone style={{ fill: "white" }} fontSize={40} />
+        ) : (
+          <FaMoon fontSize={32} />
+        )}
       </span>
     </header>
   );

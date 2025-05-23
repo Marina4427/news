@@ -50,8 +50,6 @@ export const newsApi = createApi({
         }
       },
     }),
-
-
   }),
 })
 

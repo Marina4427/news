@@ -1,7 +1,13 @@
-.header {
+.section {
     display: flex;
     overflow: hidden;
     flex-direction: column;
     width: 100%;
     gap: 32px;
+}
+
+.link{
+    margin-top: 8px;
+    font-weight: 700;
+    cursor: pointer;
 }
